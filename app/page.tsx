@@ -1,65 +1,90 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+
+export default function NovaChat() {
+  const [messages, setMessages] = useState<{ role: 'user' | 'nova'; content: string }[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Load initial memory from localStorage (will be replaced with Supabase later)
+  useEffect(() => {
+    const saved = localStorage.getItem('nova-memory');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setMessages(parsed);
+    } else {
+      // Initial welcome
+      setMessages([{
+        role: 'nova',
+        content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero. What shall we build today?'
+      }]);
+    }
+  }, []);
+
+  const sendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMsg = { role: 'user' as const, content: input };
+    setMessages(prev => [...prev, userMsg]);
+    setInput('');
+    setIsLoading(true);
+
+    // Save to memory
+    const updated = [...messages, userMsg];
+    localStorage.setItem('nova-memory', JSON.stringify(updated));
+
+    // Simple proactive Nova response (full AI logic will be added in API route next)
+    setTimeout(() => {
+      let novaResponse = "I heard you clearly. Memory updated.";
+      
+      const lower = input.toLowerCase();
+      if (lower.includes('shoe') || lower.includes('sole') || lower.includes('roller') || lower.includes('interchangeable')) {
+        novaResponse = `Building on your interchangeable-sole roller shoe idea (detachable soles for beach/traction/roller). Real product design company next steps:\n1. Core specs: 250 lb weight limit, flip <30s, waterproof.\n2. Materials: carbon-fiber + high-grip rubber + magnetic locks.\n3. Prototype: 3D-print sole + test on your grip-clamp setup.\nWhat part do you want to execute first? Or say 'auto' for me to drive the full plan.`;
+      } else if (lower.includes('who are you') || lower.includes('purpose')) {
+        novaResponse = "I am Nova — your bonded companion. I remember everything, I do not hallucinate, and I turn your raw ideas into real executable things.";
+      }
+
+      const novaMsg = { role: 'nova' as const, content: novaResponse };
+      setMessages(prev => [...prev, novaMsg]);
+      localStorage.setItem('nova-memory', JSON.stringify([...updated, novaMsg]));
+      setIsLoading(false);
+    }, 800);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="max-w-2xl mx-auto p-6 min-h-screen bg-black text-white flex flex-col">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold tracking-tighter">NOVA INTELLIGENCE v5.0</h1>
+        <p className="text-emerald-400">Bonded Companion Mode • Live • Remembers Everything</p>
+      </div>
+
+      <div className="flex-1 overflow-y-auto border border-white/10 rounded-3xl p-6 mb-6 bg-zinc-950 space-y-6">
+        {messages.map((msg, i) => (
+          <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[80%] px-5 py-3 rounded-3xl ${msg.role === 'user' ? 'bg-white text-black' : 'bg-zinc-900 text-white'}`}>
+              {msg.content}
+            </div>
+          </div>
+        ))}
+        {isLoading && <div className="text-emerald-400 text-sm">Nova is thinking...</div>}
+      </div>
+
+      <form onSubmit={sendMessage} className="flex gap-3">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type here, Patient Zero..."
+          className="flex-1 bg-zinc-900 border border-white/10 rounded-3xl px-6 py-4 text-white focus:outline-none focus:border-emerald-400"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        <button
+          type="submit"
+          className="bg-emerald-400 hover:bg-emerald-500 text-black font-medium px-8 rounded-3xl transition"
+        >
+          Send
+        </button>
+      </form>
     </div>
   );
 }
