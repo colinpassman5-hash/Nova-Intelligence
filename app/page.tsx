@@ -24,7 +24,6 @@ export default function NovaChat() {
     setTimeout(() => {
       let novaResponse = "I heard you clearly. Memory updated.";
 
-      // HIGHEST PRIORITY - EXACT AUTO TRIGGER
       if (currentInput === 'auto') {
         novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
