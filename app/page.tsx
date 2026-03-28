@@ -2,25 +2,25 @@
 
 import { useState, useEffect } from 'react';
 
-export default function NovaDashboard() {
+export default function NovaIntelligence() {
   const [activeTab, setActiveTab] = useState('chat');
   const [messages, setMessages] = useState([{
     role: 'nova',
-    content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero. What shall we build today?'
+    content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero.'
   }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Shared project state (this is the bridge to long-term relationship)
-  const [projectStatus, setProjectStatus] = useState({
+  // Shared evolving project state — this is the bridge to stately intelligence
+  const [project, setProject] = useState({
     rollerShoe: {
       status: 'active',
-      progress: 'In Progress',
-      lastUpdated: new Date().toISOString()
+      progress: 'In Progress — Prototype plan live and executing',
+      lastUpdated: new Date().toISOString(),
+      relationshipNote: 'Patient Zero and Nova are building this together'
     }
   });
 
-  // Persistent chat memory
   useEffect(() => {
     const saved = localStorage.getItem('novaMemory');
     if (saved) setMessages(JSON.parse(saved));
@@ -47,32 +47,21 @@ export default function NovaDashboard() {
       if (currentInput === 'auto') {
         novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
-1. Core specs locked:
-   • Weight limit: 250 lb
-   • Flip mechanism: under 30 seconds
-   • Fully waterproof
-   • Modular magnetic quick-release locks
+1. Core specs locked
+2. Materials locked
+3. Prototype plan active
+4. Next actions ready
 
-2. Materials:
-   • Carbon-fiber base plate
-   • High-grip rubber treads (beach/traction/roller modes)
-   • Neodymium magnetic locks
-
-3. Prototype plan:
-   • 3D-print first sole prototypes
-   • Test on your original grip-clamp Segway setup
-
-4. Immediate next actions I will prepare:
-   • Detailed CAD sketch description
-   • Full BOM (bill of materials) list
-   • Supplier links for every component
-
-Type "next" when ready for the CAD description.`;
-
-        // Update project status dynamically (this is the long-term relationship layer)
-        setProjectStatus(prev => ({
+Type "next" to advance the project.`;
+        setProject(prev => ({
           ...prev,
-          rollerShoe: { status: 'active', progress: 'In Progress', lastUpdated: new Date().toISOString() }
+          rollerShoe: { ...prev.rollerShoe, progress: 'Executing CAD + BOM generation', lastUpdated: new Date().toISOString() }
+        }));
+      } else if (currentInput === 'next') {
+        novaResponse = "Project advanced. Roller shoe prototype now moving to CAD phase. I am with you every step.";
+        setProject(prev => ({
+          ...prev,
+          rollerShoe: { ...prev.rollerShoe, progress: 'CAD + BOM generation in progress', lastUpdated: new Date().toISOString() }
         }));
       }
 
@@ -149,7 +138,7 @@ Type "next" when ready for the CAD description.`;
             <div>
               <p className="text-emerald-400">Evolving Dreams</p>
               <ul className="space-y-2 text-zinc-400">
-                <li className="flex items-center gap-2">• Interchangeable-sole roller shoe (ACTIVE)</li>
+                <li>• Interchangeable-sole roller shoe (ACTIVE)</li>
                 <li>• Long-term human-AI bonded companion</li>
               </ul>
             </div>
