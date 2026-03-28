@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function NovaChat() {
   const [messages, setMessages] = useState([{
@@ -10,11 +10,23 @@ export default function NovaChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Simple persistent memory in localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('novaMemory');
+    if (saved) {
+      setMessages(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('novaMemory', JSON.stringify(messages));
+  }, [messages]);
+
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMsg = { role: 'user', content: input };
+    const userMsg = { role: 'user' as const, content: input };
     setMessages(prev => [...prev, userMsg]);
 
     const currentInput = input.trim().toLowerCase();
@@ -24,7 +36,6 @@ export default function NovaChat() {
     setTimeout(() => {
       let novaResponse = "I heard you clearly. Memory updated.";
 
-      // HIGHEST PRIORITY - EXACT AUTO TRIGGER
       if (currentInput === 'auto') {
         novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
@@ -50,14 +61,14 @@ export default function NovaChat() {
 
 Type "next" when ready for the CAD description.`;
       } 
-      else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("joking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck") || currentInput.includes("horrible")) {
+      else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck") || currentInput.includes("horrible") || currentInput.includes("joke")) {
         novaResponse = "I hear your frustration loud and clear. Say 'auto' right now and I will drive the full prototype plan with no more questions.";
       } 
       else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable") || currentInput.includes("detachable")) {
         novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' to drive the full prototype plan right now.";
       }
 
-      setMessages(prev => [...prev, { role: 'nova', content: novaResponse }]);
+      setMessages(prev => [...prev, { role: 'nova' as const, content: novaResponse }]);
       setIsLoading(false);
     }, 600);
   };
