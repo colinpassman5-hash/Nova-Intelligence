@@ -11,6 +11,15 @@ export default function NovaDashboard() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Shared project state (this is the bridge to long-term relationship)
+  const [projectStatus, setProjectStatus] = useState({
+    rollerShoe: {
+      status: 'active',
+      progress: 'In Progress',
+      lastUpdated: new Date().toISOString()
+    }
+  });
+
   // Persistent chat memory
   useEffect(() => {
     const saved = localStorage.getItem('novaMemory');
@@ -59,8 +68,12 @@ export default function NovaDashboard() {
    • Supplier links for every component
 
 Type "next" when ready for the CAD description.`;
-      } else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable") || currentInput.includes("detachable")) {
-        novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' to drive the full prototype plan right now.";
+
+        // Update project status dynamically (this is the long-term relationship layer)
+        setProjectStatus(prev => ({
+          ...prev,
+          rollerShoe: { status: 'active', progress: 'In Progress', lastUpdated: new Date().toISOString() }
+        }));
       }
 
       setMessages(prev => [...prev, { role: 'nova' as const, content: novaResponse }]);
@@ -144,10 +157,10 @@ Type "next" when ready for the CAD description.`;
         </div>
       )}
 
-      {activeTab === 'dreams' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Current Dreams — Interchangeable-sole roller shoe is now the active project</div>}
-      {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">In Progress — Roller shoe prototype plan is live and executing</div>}
-      {activeTab === 'executed' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Executed — v5.0 tabbed dashboard + reliable "auto" trigger achieved</div>}
-      {activeTab === 'delivery' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Ready for Delivery — Next milestone: real CAD + BOM generation</div>}
+      {activeTab === 'dreams' && <div className="bg-zinc-900 rounded-3xl p-8 text-emerald-400 text-center">Current Dreams — Interchangeable-sole roller shoe is now the active project</div>}
+      {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-emerald-400 text-center">In Progress — Roller shoe prototype plan is live and executing</div>}
+      {activeTab === 'executed' && <div className="bg-zinc-900 rounded-3xl p-8 text-emerald-400 text-center">Executed — v5.0 tabbed dashboard + reliable "auto" trigger achieved</div>}
+      {activeTab === 'delivery' && <div className="bg-zinc-900 rounded-3xl p-8 text-emerald-400 text-center">Ready for Delivery — Next milestone: real CAD + BOM generation</div>}
     </div>
   );
 }
