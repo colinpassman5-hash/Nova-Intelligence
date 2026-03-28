@@ -50,11 +50,9 @@ export default function NovaChat() {
 
 Type "next" when ready for the CAD description.`;
       } 
-      // Frustration handler (after auto)
       else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("joking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck") || currentInput.includes("horrible")) {
         novaResponse = "I hear your frustration loud and clear. Say 'auto' right now and I will drive the full prototype plan with no more questions.";
       } 
-      // Shoe idea
       else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable") || currentInput.includes("detachable")) {
         novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' to drive the full prototype plan right now.";
       }
