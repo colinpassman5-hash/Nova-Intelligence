@@ -10,7 +10,7 @@ export default function NovaChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendMessage = (e) => {
+  const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -24,6 +24,7 @@ export default function NovaChat() {
     setTimeout(() => {
       let novaResponse = "I heard you clearly. Memory updated.";
 
+      // HIGHEST PRIORITY - EXACT AUTO TRIGGER
       if (currentInput === 'auto') {
         novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
