@@ -24,36 +24,38 @@ export default function NovaChat() {
     setTimeout(() => {
       let novaResponse = "I heard you clearly. Memory updated.";
 
-      // HIGHEST PRIORITY - AUTO TRIGGER
+      // HIGHEST PRIORITY - EXACT AUTO TRIGGER
       if (currentInput === 'auto') {
         novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
 1. Core specs locked:
-   - Weight limit: 250 lb
-   - Flip mechanism: <30 seconds
-   - Fully waterproof
-   - Modular magnetic quick-release locks
+   • Weight limit: 250 lb
+   • Flip mechanism: under 30 seconds
+   • Fully waterproof
+   • Modular magnetic quick-release locks
 
 2. Materials:
-   - Carbon-fiber base plate
-   - High-grip rubber treads (beach/traction/roller modes)
-   - Neodymium magnetic locks
+   • Carbon-fiber base plate
+   • High-grip rubber treads (beach/traction/roller modes)
+   • Neodymium magnetic locks
 
 3. Prototype plan:
-   - 3D-print first sole prototypes
-   - Test on your original grip-clamp Segway setup
+   • 3D-print first sole prototypes
+   • Test on your original grip-clamp Segway setup
 
 4. Immediate next actions I will prepare:
-   - Detailed CAD sketch description
-   - Full BOM (bill of materials) list
-   - Supplier links for every component
+   • Detailed CAD sketch description
+   • Full BOM (bill of materials) list
+   • Supplier links for every component
 
 Type "next" when ready for the CAD description.`;
       } 
-      // Everything else (frustration, shoe idea, etc.)
-      else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("joking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck")) {
+      // Frustration handler (after auto)
+      else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("joking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck") || currentInput.includes("horrible")) {
         novaResponse = "I hear your frustration loud and clear. Say 'auto' right now and I will drive the full prototype plan with no more questions.";
-      } else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable")) {
+      } 
+      // Shoe idea
+      else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable") || currentInput.includes("detachable")) {
         novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' to drive the full prototype plan right now.";
       }
 
