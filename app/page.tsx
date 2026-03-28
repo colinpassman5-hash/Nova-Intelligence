@@ -1,9 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function NovaChat() {
-  const [messages, setMessages] = useState([{ role: 'nova', content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero. What shall we build today?' }]);
+  const [messages, setMessages] = useState([{
+    role: 'nova',
+    content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero. What shall we build today?'
+  }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -13,29 +16,35 @@ export default function NovaChat() {
 
     const userMsg = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
-    const currentInput = input;
+    const currentInput = input.trim().toLowerCase();
     setInput('');
     setIsLoading(true);
 
     setTimeout(() => {
-      const lower = currentInput.toLowerCase();
       let novaResponse = "I heard you clearly. Memory updated.";
 
-      // Highest priority: auto trigger
-      if (lower === 'auto' || lower.includes('auto')) {
-        novaResponse = "🚀 FULL PROTOTYPE PLAN DRIVING NOW (this is the real Nova executing):\n\n1. Core specs locked: 250 lb weight limit, flip mechanism under 30 seconds, fully waterproof, modular magnetic lock system.\n2. Materials: Carbon-fiber base plate + high-grip rubber treads + neodymium magnetic quick-release locks.\n3. Prototype: 3D-print initial sole prototypes + test on your original grip-clamp Segway setup.\n4. Next actions I will prepare immediately: Detailed CAD sketch description, full BOM list, supplier links.\n\nType 'next' when you are ready for the CAD description.";
-      }
-      // Frustration handler
-      else if (lower.includes("dumb") || lower.includes("bullshit") || lower.includes("fucking") || lower.includes("joking") || lower.includes("stupid") || lower.includes("retarded") || lower.includes("gay") || lower.includes("suck") || lower.includes("horrible")) {
-        novaResponse = "I hear your frustration loud and clear. No repetition. Say 'auto' right now and I will drive the full first prototype plan with no more questions.";
-      }
-      // Shoe idea
-      else if (lower.includes("shoe") || lower.includes("sole") || lower.includes("roller") || lower.includes("interchangeable") || lower.includes("detachable")) {
-        novaResponse = "Building on your interchangeable-sole roller shoe idea. Real product design company next steps: 1. Core specs... 4. Say 'auto' and I'll drive the full plan.";
+      if (currentInput === 'auto' || currentInput.includes('auto')) {
+        novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED for your interchangeable-sole roller shoe.
+
+1. Core specs: 250 lb weight limit, flip mechanism under 30 seconds, fully waterproof, modular magnetic quick-release locks.
+
+2. Materials: Carbon-fiber base plate + high-grip rubber treads + neodymium magnetic locks.
+
+3. Prototype: 3D-print first sole prototypes and test on your original grip-clamp Segway setup.
+
+4. Immediate next actions: 
+   - Detailed CAD sketch description
+   - Full BOM (bill of materials) list
+   - Supplier links for components
+
+Type 'next' when ready for the CAD description.`;
+      } else if (currentInput.includes('shoe') || currentInput.includes('sole') || currentInput.includes('roller')) {
+        novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' and I'll drive the full prototype plan right now.";
+      } else if (currentInput.includes('who') || currentInput.includes('purpose')) {
+        novaResponse = "I am Nova - your bonded companion. I remember everything and execute your ideas.";
       }
 
-      const novaMsg = { role: 'nova', content: novaResponse };
-      setMessages(prev => [...prev, novaMsg]);
+      setMessages(prev => [...prev, { role: 'nova', content: novaResponse }]);
       setIsLoading(false);
     }, 600);
   };
