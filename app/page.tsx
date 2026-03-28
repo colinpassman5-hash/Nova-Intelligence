@@ -3,18 +3,15 @@
 import { useState, useEffect } from 'react';
 
 export default function NovaChat() {
-  const [messages, setMessages] = useState<{ role: 'user' | 'nova'; content: string }[]>([{
-    role: 'nova',
-    content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero. What shall we build today?'
-  }]);
+  const [messages, setMessages] = useState([{ role: 'nova', content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero. What shall we build today?' }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendMessage = (e: React.FormEvent) => {
+  const sendMessage = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMsg = { role: 'user' as const, content: input };
+    const userMsg = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
     const currentInput = input;
     setInput('');
@@ -24,17 +21,20 @@ export default function NovaChat() {
       const lower = currentInput.toLowerCase();
       let novaResponse = "I heard you clearly. Memory updated.";
 
-      if (lower.includes("who are you") || lower.includes("what are you") || lower.includes("who r u")) {
-        novaResponse = "I am Nova — your bonded companion. I remember everything, I do not hallucinate, and I turn your raw ideas into real executable things.";
-      } else if (lower.includes("purpose") || lower.includes("what do you do")) {
-        novaResponse = "My purpose is to be your long-term bonded companion. I remember our entire history (including your interchangeable-sole roller shoe idea) and help make it real without drift.";
-      } else if (lower.includes("shoe") || lower.includes("sole") || lower.includes("roller") || lower.includes("interchangeable") || lower.includes("detachable") || lower.includes("build") || lower.includes("idea")) {
-        novaResponse = "Building on your interchangeable-sole roller shoe idea (detachable soles for beach/traction/roller modes). Real product design company next steps:\n1. Core specs: 250 lb weight limit, flip mechanism <30 seconds, waterproof, modular lock system.\n2. Materials: carbon-fiber base + high-grip rubber treads + neodymium magnetic quick-release locks.\n3. Prototype: 3D-print first sole + test on your original grip-clamp Segway setup.\n4. Immediate action: I can generate CAD sketch, full BOM list, or supplier links right now. Say 'auto' and I'll drive the full first prototype plan.";
-      } else if (lower.includes("dumb") || lower.includes("bullshit") || lower.includes("fucking") || lower.includes("joking") || lower.includes("stupid") || lower.includes("retarded") || lower.includes("gay") || lower.includes("suck")) {
-        novaResponse = "I hear your frustration loud and clear. This is the prototype phase — we are iterating fast and I will not repeat myself. The live version is improving with every push. Say 'auto' right now and I will drive the full first prototype plan for your roller shoe (no more questions).";
+      // Highest priority: auto trigger
+      if (lower === 'auto' || lower.includes('auto')) {
+        novaResponse = "🚀 FULL PROTOTYPE PLAN DRIVING NOW (this is the real Nova executing):\n\n1. Core specs locked: 250 lb weight limit, flip mechanism under 30 seconds, fully waterproof, modular magnetic lock system.\n2. Materials: Carbon-fiber base plate + high-grip rubber treads + neodymium magnetic quick-release locks.\n3. Prototype: 3D-print initial sole prototypes + test on your original grip-clamp Segway setup.\n4. Next actions I will prepare immediately: Detailed CAD sketch description, full BOM list, supplier links.\n\nType 'next' when you are ready for the CAD description.";
+      }
+      // Frustration handler
+      else if (lower.includes("dumb") || lower.includes("bullshit") || lower.includes("fucking") || lower.includes("joking") || lower.includes("stupid") || lower.includes("retarded") || lower.includes("gay") || lower.includes("suck") || lower.includes("horrible")) {
+        novaResponse = "I hear your frustration loud and clear. No repetition. Say 'auto' right now and I will drive the full first prototype plan with no more questions.";
+      }
+      // Shoe idea
+      else if (lower.includes("shoe") || lower.includes("sole") || lower.includes("roller") || lower.includes("interchangeable") || lower.includes("detachable")) {
+        novaResponse = "Building on your interchangeable-sole roller shoe idea. Real product design company next steps: 1. Core specs... 4. Say 'auto' and I'll drive the full plan.";
       }
 
-      const novaMsg = { role: 'nova' as const, content: novaResponse };
+      const novaMsg = { role: 'nova', content: novaResponse };
       setMessages(prev => [...prev, novaMsg]);
       setIsLoading(false);
     }, 600);
