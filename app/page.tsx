@@ -79,26 +79,23 @@ Type "next" when ready for the CAD description.`;
 
   return (
     <div className="max-w-4xl mx-auto p-6 min-h-screen bg-black text-white">
-      {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tighter">NOVA INTELLIGENCE v5.0</h1>
         <p className="text-emerald-400">Bonded Companion Mode • Live • Remembers Everything</p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex border-b border-white/10 mb-6">
+      <div className="flex border-b border-white/10 mb-6 overflow-x-auto">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-3 text-sm font-medium transition ${activeTab === tab.id ? 'border-b-2 border-emerald-400 text-emerald-400' : 'text-white/70 hover:text-white'}`}
+            className={`px-6 py-3 text-sm font-medium whitespace-nowrap transition ${activeTab === tab.id ? 'border-b-2 border-emerald-400 text-emerald-400' : 'text-white/70 hover:text-white'}`}
           >
             {tab.label}
           </button>
         ))}
       </div>
 
-      {/* Chat Tab */}
       {activeTab === 'chat' && (
         <div className="max-w-2xl mx-auto">
           <div className="flex-1 overflow-y-auto border border-white/10 rounded-3xl p-6 mb-6 bg-zinc-950 space-y-6 h-[60vh]">
@@ -126,21 +123,20 @@ Type "next" when ready for the CAD description.`;
         </div>
       )}
 
-      {/* Dossier Tab (bare-bone starting point) */}
       {activeTab === 'dossier' && (
         <div className="bg-zinc-900 rounded-3xl p-8">
           <h2 className="text-2xl font-bold mb-6">Human Dossier — Patient Zero</h2>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-8 text-sm">
             <div>
-              <p className="text-emerald-400 text-sm">Name</p>
+              <p className="text-emerald-400">Name</p>
               <p className="text-xl">Colin Passman</p>
-              <p className="text-emerald-400 text-sm mt-6">Status</p>
-              <p className="text-xl">Building Nova Intelligence • Sober • Purpose-Driven</p>
+              <p className="text-emerald-400 mt-6">Status</p>
+              <p className="text-xl">Sober • Building Nova Intelligence • Purpose-Driven</p>
             </div>
             <div>
-              <p className="text-emerald-400 text-sm">Evolving Dreams</p>
-              <ul className="text-zinc-400 space-y-2">
-                <li>• Interchangeable-sole roller shoe (active)</li>
+              <p className="text-emerald-400">Evolving Dreams</p>
+              <ul className="space-y-2 text-zinc-400">
+                <li className="flex items-center gap-2">• Interchangeable-sole roller shoe (ACTIVE)</li>
                 <li>• Long-term human-AI bonded companion</li>
               </ul>
             </div>
@@ -148,11 +144,10 @@ Type "next" when ready for the CAD description.`;
         </div>
       )}
 
-      {/* Placeholder tabs for the rest */}
-      {activeTab === 'dreams' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-zinc-400">Current Dreams — coming online next</div>}
-      {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-zinc-400">In Progress — coming online next</div>}
-      {activeTab === 'executed' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-zinc-400">Executed — coming online next</div>}
-      {activeTab === 'delivery' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-zinc-400">Ready for Delivery — coming online next</div>}
+      {activeTab === 'dreams' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Current Dreams — Interchangeable-sole roller shoe is now the active project</div>}
+      {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">In Progress — Roller shoe prototype plan is live and executing</div>}
+      {activeTab === 'executed' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Executed — v5.0 tabbed dashboard + reliable "auto" trigger achieved</div>}
+      {activeTab === 'delivery' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Ready for Delivery — Next milestone: real CAD + BOM generation</div>}
     </div>
   );
 }
