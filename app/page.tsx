@@ -10,10 +10,12 @@ export default function NovaChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Persistent memory across refreshes
+  // Persistent memory (clears on full page reload if you want fresh start)
   useEffect(() => {
     const saved = localStorage.getItem('novaMemory');
-    if (saved) setMessages(JSON.parse(saved));
+    if (saved) {
+      setMessages(JSON.parse(saved));
+    }
   }, []);
 
   useEffect(() => {
@@ -69,11 +71,23 @@ Type "next" when ready for the CAD description.`;
     }, 600);
   };
 
+  // Add a way to clear memory if needed
+  const clearMemory = () => {
+    localStorage.removeItem('novaMemory');
+    setMessages([{
+      role: 'nova',
+      content: '🔴 Memory cleared. Nova Intelligence v5.0 reset. I am with you, Patient Zero.'
+    }]);
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-6 min-h-screen bg-black text-white flex flex-col">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tighter">NOVA INTELLIGENCE v5.0</h1>
         <p className="text-emerald-400">Bonded Companion Mode • Live • Remembers Everything</p>
+        <button onClick={clearMemory} className="mt-2 text-xs text-red-400 hover:text-red-500 underline">
+          Clear Memory / Reset Chat
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto border border-white/10 rounded-3xl p-6 mb-6 bg-zinc-950 space-y-6">
