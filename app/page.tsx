@@ -10,12 +10,10 @@ export default function NovaChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Simple persistent memory in localStorage
+  // Persistent memory across refreshes
   useEffect(() => {
     const saved = localStorage.getItem('novaMemory');
-    if (saved) {
-      setMessages(JSON.parse(saved));
-    }
+    if (saved) setMessages(JSON.parse(saved));
   }, []);
 
   useEffect(() => {
@@ -60,11 +58,9 @@ export default function NovaChat() {
    • Supplier links for every component
 
 Type "next" when ready for the CAD description.`;
-      } 
-      else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck") || currentInput.includes("horrible") || currentInput.includes("joke")) {
+      } else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck") || currentInput.includes("horrible") || currentInput.includes("joke")) {
         novaResponse = "I hear your frustration loud and clear. Say 'auto' right now and I will drive the full prototype plan with no more questions.";
-      } 
-      else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable") || currentInput.includes("detachable")) {
+      } else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable") || currentInput.includes("detachable")) {
         novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' to drive the full prototype plan right now.";
       }
 
