@@ -16,6 +16,7 @@ export default function NovaChat() {
 
     const userMsg = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
+
     const currentInput = input.trim().toLowerCase();
     setInput('');
     setIsLoading(true);
@@ -23,25 +24,37 @@ export default function NovaChat() {
     setTimeout(() => {
       let novaResponse = "I heard you clearly. Memory updated.";
 
-      if (currentInput === 'auto' || currentInput.includes('auto')) {
-        novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED for your interchangeable-sole roller shoe.
+      // HIGHEST PRIORITY - AUTO TRIGGER
+      if (currentInput === 'auto') {
+        novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
-1. Core specs: 250 lb weight limit, flip mechanism under 30 seconds, fully waterproof, modular magnetic quick-release locks.
+1. Core specs locked:
+   - Weight limit: 250 lb
+   - Flip mechanism: <30 seconds
+   - Fully waterproof
+   - Modular magnetic quick-release locks
 
-2. Materials: Carbon-fiber base plate + high-grip rubber treads + neodymium magnetic locks.
+2. Materials:
+   - Carbon-fiber base plate
+   - High-grip rubber treads (beach/traction/roller modes)
+   - Neodymium magnetic locks
 
-3. Prototype: 3D-print first sole prototypes and test on your original grip-clamp Segway setup.
+3. Prototype plan:
+   - 3D-print first sole prototypes
+   - Test on your original grip-clamp Segway setup
 
-4. Immediate next actions: 
+4. Immediate next actions I will prepare:
    - Detailed CAD sketch description
    - Full BOM (bill of materials) list
-   - Supplier links for components
+   - Supplier links for every component
 
-Type 'next' when ready for the CAD description.`;
-      } else if (currentInput.includes('shoe') || currentInput.includes('sole') || currentInput.includes('roller')) {
-        novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' and I'll drive the full prototype plan right now.";
-      } else if (currentInput.includes('who') || currentInput.includes('purpose')) {
-        novaResponse = "I am Nova - your bonded companion. I remember everything and execute your ideas.";
+Type "next" when ready for the CAD description.`;
+      } 
+      // Everything else (frustration, shoe idea, etc.)
+      else if (currentInput.includes("dumb") || currentInput.includes("bullshit") || currentInput.includes("fucking") || currentInput.includes("joking") || currentInput.includes("stupid") || currentInput.includes("retarded") || currentInput.includes("gay") || currentInput.includes("suck")) {
+        novaResponse = "I hear your frustration loud and clear. Say 'auto' right now and I will drive the full prototype plan with no more questions.";
+      } else if (currentInput.includes("shoe") || currentInput.includes("sole") || currentInput.includes("roller") || currentInput.includes("interchangeable")) {
+        novaResponse = "Building on your interchangeable-sole roller shoe idea. Say 'auto' to drive the full prototype plan right now.";
       }
 
       setMessages(prev => [...prev, { role: 'nova', content: novaResponse }]);
