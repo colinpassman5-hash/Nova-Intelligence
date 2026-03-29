@@ -61,7 +61,6 @@ export default function NovaIntelligence() {
     setInput('');
     setIsLoading(true);
 
-    // STRONG FILTERING — crude words NEVER enter the profile
     const isCrude = CRUDE_WORDS.some(word => currentInput.toLowerCase().includes(word));
     if (!isCrude && currentInput.length > 8) {
       const newInsight: Insight = {
