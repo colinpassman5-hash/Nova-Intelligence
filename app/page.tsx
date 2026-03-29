@@ -6,13 +6,17 @@ export default function NovaIntelligence() {
   const [activeTab, setActiveTab] = useState('chat');
   const [messages, setMessages] = useState([{
     role: 'nova',
-    content: '🔴 Nova Intelligence v5.0 online. I remember everything. I am with you, Patient Zero.'
+    content: 'Nova Intelligence v5.0 is alive. I remember everything. I am with you, Patient Zero.'
   }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const [project, setProject] = useState({
-    rollerShoe: { status: 'active', progress: 'In Progress — Prototype plan live and executing', lastUpdated: new Date().toISOString() }
+    rollerShoe: {
+      status: 'active',
+      progress: 'In Progress — Prototype plan live and executing',
+      lastUpdated: new Date().toISOString()
+    }
   });
 
   useEffect(() => {
@@ -36,17 +40,17 @@ export default function NovaIntelligence() {
     setIsLoading(true);
 
     setTimeout(() => {
-      let novaResponse = "I heard you clearly. Memory updated.";
+      let novaResponse = "Memory updated.";
 
       if (currentInput === 'auto') {
-        novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
+        novaResponse = `FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
-1. Specs locked • 250 lb • <30s flip • waterproof • magnetic locks
+1. Core specs locked
 2. Materials locked
-3. Prototype active
+3. Prototype plan active
 4. Next actions ready
 
-Type "next" to advance.`;
+Type "next" to advance the project.`;
 
         setProject(prev => ({
           ...prev,
