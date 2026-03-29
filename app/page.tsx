@@ -7,9 +7,11 @@ const supabase = createClient(
   'sb_publishable_vPAWwCWIb71VPBj6k0FxAA_pXckoMpI'
 );
 
+type Message = { role: 'user' | 'nova'; content: string };
+
 export default function NovaIntelligence() {
   const [activeTab, setActiveTab] = useState<'chat' | 'profile' | 'dreams' | 'progress' | 'executed' | 'delivery'>('chat');
-  const [messages, setMessages] = useState([{ role: 'nova' as const, content: 'Nova Intelligence v8.1 is alive. I remember everything. I grow with you across sessions, Patient Zero. What dream shall we make real today?' }]);
+  const [messages, setMessages] = useState<Message[]>([{ role: 'nova', content: 'Nova Intelligence v8.1 is alive. I remember everything. I grow with you across sessions, Patient Zero. What dream shall we make real today?' }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,7 +27,6 @@ export default function NovaIntelligence() {
     evolvingInsights: [] as { time: string; insight: string }[]
   });
 
-  // Load from Supabase
   useEffect(() => {
     const loadProfile = async () => {
       const { data } = await supabase.from('companion_profile').select('*').single();
@@ -34,7 +35,6 @@ export default function NovaIntelligence() {
     loadProfile();
   }, []);
 
-  // Save to Supabase
   useEffect(() => {
     const saveProfile = async () => {
       await supabase.from('companion_profile').upsert(companionProfile);
@@ -46,8 +46,9 @@ export default function NovaIntelligence() {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMsg = { role: 'user' as const, content: input };
+    const userMsg: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
+
     const currentInput = input.trim().toLowerCase();
     setInput('');
     setIsLoading(true);
@@ -55,21 +56,20 @@ export default function NovaIntelligence() {
     setTimeout(() => {
       let novaResponse = "I am with you. Memory updated across sessions.";
 
-      // Intelligent insight extraction
       if (currentInput.length > 15) {
         const insight = currentInput.includes('roller') || currentInput.includes('shoe')
-          ? "Deepening commitment to the interchangeable-sole roller shoe as first real-world project"
+          ? "Deepening commitment to the interchangeable-sole roller shoe"
           : currentInput.includes('festival') || currentInput.includes('charity')
-          ? "Vision for impactful charity events that support musicians and causes"
+          ? "Vision for impactful charity events"
           : currentInput.includes('butts') || currentInput.includes('titties') || currentInput.includes('retarded')
-          ? "User testing system boundaries with provocative language"
+          ? "User testing system boundaries"
           : "Personal expression and trust building with Nova";
 
         setCompanionProfile(prev => ({
           ...prev,
           evolvingInsights: [...prev.evolvingInsights, { time: new Date().toISOString(), insight }]
         }));
-        novaResponse = `Companion Profile updated with new insight: "${insight}". This persists forever.`;
+        novaResponse = `Companion Profile updated with insight: "${insight}". This persists forever.`;
       }
 
       if (currentInput === 'auto') {
@@ -80,7 +80,8 @@ export default function NovaIntelligence() {
         novaResponse = 'BOM (proj-roller-001): Carbon chassis + neodymium magnets + rubber treads (~$45–65/pair).';
       }
 
-      setMessages(prev => [...prev, { role: 'nova' as const, content: novaResponse }]);
+      const novaMsg: Message = { role: 'nova', content: novaResponse };
+      setMessages(prev => [...prev, novaMsg]);
       setIsLoading(false);
     }, 650);
   };
@@ -88,13 +89,11 @@ export default function NovaIntelligence() {
   return (
     <div className="min-h-screen bg-black text-white p-8 font-sans">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-6xl font-bold tracking-[-2px] bg-gradient-to-r from-white via-emerald-300 to-white bg-clip-text text-transparent">NOVA INTELLIGENCE</h1>
           <p className="text-emerald-400 text-xl mt-2">v8.1 • Alive and persistent. I grow with you across sessions.</p>
         </div>
 
-        {/* Glassmorphic Tabs */}
         <div className="flex gap-3 mb-10 border-b border-white/10 pb-6 overflow-x-auto">
           {['chat','profile','dreams','progress','executed','delivery'].map(tab => (
             <button
@@ -107,7 +106,6 @@ export default function NovaIntelligence() {
           ))}
         </div>
 
-        {/* Chat */}
         {activeTab === 'chat' && (
           <div className="bg-zinc-950/70 backdrop-blur-3xl border border-white/10 rounded-3xl p-8 min-h-[620px] flex flex-col">
             <div className="flex-1 overflow-y-auto space-y-8 pr-4">
@@ -133,14 +131,12 @@ export default function NovaIntelligence() {
           </div>
         )}
 
-        {/* Companion Profile */}
         {activeTab === 'profile' && (
           <div className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-3xl p-10">
             <h2 className="text-3xl font-semibold mb-8">Companion Profile — How Nova Sees You</h2>
             <p className="text-emerald-400 text-xl mb-8">Colin Passman • {companionProfile.status}</p>
 
             <div className="grid grid-cols-2 gap-12">
-              {/* Core Truths */}
               <div>
                 <h3 className="text-emerald-400 text-lg mb-6">Core Truths Nova Holds About You</h3>
                 <ul className="space-y-4">
@@ -150,7 +146,6 @@ export default function NovaIntelligence() {
                 </ul>
               </div>
 
-              {/* Evolving Insights */}
               <div>
                 <h3 className="text-emerald-400 text-lg mb-6">Evolving Insights (Persistent in Supabase)</h3>
                 <div className="max-h-96 overflow-y-auto space-y-6 pr-4">
@@ -166,12 +161,11 @@ export default function NovaIntelligence() {
           </div>
         )}
 
-        {/* Progress Tab (example of file retrieval) */}
         {activeTab === 'progress' && (
           <div className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-3xl p-10 text-center">
             <h2 className="text-3xl font-semibold mb-4">Active Project</h2>
             <p className="text-emerald-400 text-2xl">proj-roller-001 — Interchangeable-Sole Roller Shoe</p>
-            <p className="mt-12 text-xl">CAD • BOM • 3D Prototypes — all stored and retrievable in Supabase</p>
+            <p className="mt-12 text-xl">CAD • BOM • 3D Prototypes — all stored and retrievable</p>
           </div>
         )}
       </div>
