@@ -18,7 +18,7 @@ type Insight = {
   insight: string;
 };
 
-const CRUDE_WORDS = ['retard', 'faggot', 'cunt', 'nigger', 'fag', 'retarded', 'pig', 'titties', 'fuck', 'shit', 'bitch', 'asshole', 'dick', 'pussy'];
+const CRUDE_WORDS = ['retard', 'faggot', 'cunt', 'nigger', 'fag', 'retarded', 'pig', 'titties', 'fuck', 'shit', 'bitch', 'asshole', 'dick', 'pussy', 'cocksucker', 'motherfucker'];
 
 export default function NovaIntelligence() {
   const [activeTab, setActiveTab] = useState<'chat' | 'profile' | 'dreams' | 'progress' | 'executed' | 'delivery'>('chat');
@@ -63,7 +63,7 @@ export default function NovaIntelligence() {
 
     // STRONG FILTERING — crude words NEVER enter the profile
     const isCrude = CRUDE_WORDS.some(word => currentInput.toLowerCase().includes(word));
-    if (!isCrude && currentInput.length > 10) {
+    if (!isCrude && currentInput.length > 8) {
       const newInsight: Insight = {
         time: new Date().toISOString(),
         insight: currentInput.length > 50 ? currentInput.substring(0, 80) + '...' : currentInput
