@@ -11,14 +11,8 @@ export default function NovaIntelligence() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Shared evolving project state — this is the bridge to stately intelligence
   const [project, setProject] = useState({
-    rollerShoe: {
-      status: 'active',
-      progress: 'In Progress — Prototype plan live and executing',
-      lastUpdated: new Date().toISOString(),
-      relationshipNote: 'Patient Zero and Nova are building this together'
-    }
+    rollerShoe: { status: 'active', progress: 'In Progress — Prototype plan live and executing', lastUpdated: new Date().toISOString() }
   });
 
   useEffect(() => {
@@ -47,18 +41,19 @@ export default function NovaIntelligence() {
       if (currentInput === 'auto') {
         novaResponse = `🚀 FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
 
-1. Core specs locked
+1. Specs locked • 250 lb • <30s flip • waterproof • magnetic locks
 2. Materials locked
-3. Prototype plan active
+3. Prototype active
 4. Next actions ready
 
-Type "next" to advance the project.`;
+Type "next" to advance.`;
+
         setProject(prev => ({
           ...prev,
           rollerShoe: { ...prev.rollerShoe, progress: 'Executing CAD + BOM generation', lastUpdated: new Date().toISOString() }
         }));
       } else if (currentInput === 'next') {
-        novaResponse = "Project advanced. Roller shoe prototype now moving to CAD phase. I am with you every step.";
+        novaResponse = "Project advanced. Roller shoe prototype now in CAD phase. I am with you every step.";
         setProject(prev => ({
           ...prev,
           rollerShoe: { ...prev.rollerShoe, progress: 'CAD + BOM generation in progress', lastUpdated: new Date().toISOString() }
