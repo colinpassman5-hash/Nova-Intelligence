@@ -7,13 +7,14 @@ export default function NovaIntelligence() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  // Live Dossier + Project Infrastructure
+  // Live Dossier with proper types
   const [dossier, setDossier] = useState({
     name: 'Colin Passman',
     status: 'Sober • Building Nova Intelligence • Purpose-Driven',
-    notes: []
+    notes: [] as { time: string; text: string }[]
   });
-  const [projects, setProjects] = useState([{
+  
+  const [projects] = useState([{
     id: 'proj-roller-001',
     title: 'Interchangeable-Sole Roller Shoe',
     status: 'active',
@@ -45,16 +46,15 @@ export default function NovaIntelligence() {
     setTimeout(() => {
       let novaResponse = "I am with you. Memory updated.";
       
-      // Live Dossier update from ANY chat input
+      // Live Dossier update from ANY chat input (background, non-judgmental)
       if (currentInput.length > 8) {
         setDossier(prev => ({
           ...prev,
           notes: [...prev.notes, { time: new Date().toISOString(), text: input }]
         }));
-        novaResponse = `Dossier updated with your input. Your living record now contains ${dossier.notes.length + 1} personal entries.`;
+        novaResponse = `Dossier updated in real time. Your living record now contains ${dossier.notes.length + 1} entries.`;
       }
       
-      // Existing auto / project triggers
       if (currentInput === 'auto') {
         novaResponse = `🚀 PROJECT ID proj-roller-001 ACTIVATED — FULL ROLLER SHOE PLAN LIVE\n\n1. Core specs locked\n2. Materials ready\n3. CAD sketch ready\n4. BOM ready\nType "cad", "bom", or "next" to pull the latest document.`;
       } else if (currentInput.includes('cad')) {
@@ -106,22 +106,21 @@ export default function NovaIntelligence() {
 
         {activeTab === 'dossier' && (
           <div className="bg-zinc-900 rounded-3xl p-8">
-            <h2 className="text-2xl font-bold mb-6">Human Dossier — Patient Zero (LIVE)</h2>
+            <h2 className="text-2xl font-bold mb-6">Human Dossier — Patient Zero (LIVE UPDATING)</h2>
             <p className="text-emerald-400 mb-4">Colin Passman • {dossier.status}</p>
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-96 overflow-y-auto">
               {dossier.notes.map((note, i) => (
                 <div key={i} className="bg-black/30 p-4 rounded-2xl text-sm">
                   <span className="text-zinc-400 text-xs">{new Date(note.time).toLocaleTimeString()}</span>
-                  <p>{note.text}</p>
+                  <p className="mt-1">{note.text}</p>
                 </div>
               ))}
             </div>
-            <p className="text-xs text-zinc-400 mt-8">Every message you send here is automatically added to your living record.</p>
+            <p className="text-xs text-zinc-400 mt-8">Every message you send is automatically added — no judgment, only truth.</p>
           </div>
         )}
 
         {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Active Project ID: {projects[0].id}<br/>{projects[0].progress}</div>}
-        {/* Other tabs remain functional */}
       </div>
     </div>
   );
