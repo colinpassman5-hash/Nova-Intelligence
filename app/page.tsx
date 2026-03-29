@@ -42,13 +42,15 @@ export default function NovaIntelligence() {
     setTimeout(() => {
       let novaResponse = "I am with you. Memory updated.";
 
-      // Add evolving insight from user input
+      // Add evolving insight
       if (currentInput.length > 15) {
         const insight = currentInput.includes('roller') || currentInput.includes('shoe') 
           ? "Deepening commitment to the interchangeable-sole roller shoe as first real-world project" 
           : currentInput.includes('festival') || currentInput.includes('charity') 
           ? "Vision for impactful charity events that support musicians and causes" 
-          : "Personal expression and boundary-testing as part of building trust with Nova";
+          : currentInput.includes('butts') || currentInput.includes('titties') 
+          ? "User testing system boundaries with provocative language" 
+          : "Personal expression and trust building with Nova";
         
         setCompanionProfile(prev => ({
           ...prev,
@@ -123,20 +125,24 @@ export default function NovaIntelligence() {
             <div>
               <h3 className="text-emerald-400 mb-3">Evolving Insights</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
-                {companionProfile.evolvingInsights.map((item, i) => (
-                  <div key={i} className="bg-black/30 p-4 rounded-2xl text-sm">
-                    <span className="text-zinc-400 text-xs">{new Date(item.time).toLocaleTimeString()}</span>
-                    <p className="mt-1">{item.insight}</p>
-                  </div>
-                ))}
+                {companionProfile.evolvingInsights.length > 0 ? (
+                  companionProfile.evolvingInsights.map((item, i) => (
+                    <div key={i} className="bg-black/30 p-4 rounded-2xl text-sm">
+                      <span className="text-zinc-400 text-xs">{new Date(item.time).toLocaleTimeString()}</span>
+                      <p className="mt-1">{item.insight}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-zinc-400">No evolving insights yet. Talk to me — I will learn you better.</p>
+                )}
               </div>
             </div>
             
-            <p className="text-xs text-zinc-400 mt-10">This profile grows as we talk. It holds Nova's respectful, non-judgmental understanding of you.</p>
+            <p className="text-xs text-zinc-400 mt-10">This profile grows naturally as we talk. It holds Nova's respectful, non-judgmental understanding of you and your dreams.</p>
           </div>
         )}
 
-        {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Active Project ID: {projects[0].id}<br/>{projects[0].progress}</div>}
+        {activeTab === 'progress' && <div className="bg-zinc-900 rounded-3xl p-8 text-center text-emerald-400">Active Project: Interchangeable-Sole Roller Shoe (ID: proj-roller-001)</div>}
       </div>
     </div>
   );
