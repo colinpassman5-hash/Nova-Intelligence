@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, User, Moon, TrendingUp, CheckCircle2, Truck, Send, Sparkles } from 'lucide-react';
+import { 
+  MessageSquare, User, Moon, TrendingUp, CheckCircle2, Truck, Send, Sparkles, Heart 
+} from 'lucide-react';
 
 const tabs = [
   { id: 'chat', label: 'Chat', icon: MessageSquare },
@@ -60,7 +62,7 @@ export default function NovaDashboard() {
       let response = 'I heard you. Memory updated. I am with you.';
 
       if (currentInput.includes('auto') || currentInput.includes('build') || currentInput.includes('idea') || currentInput.includes('shoe')) {
-        response = '🚀 FULL PROTOTYPE PLAN ACTIVATED.\n\n1. Specs locked (250 lb, <30s flip, waterproof).\n2. Materials: carbon-fiber + rubber treads + magnetic locks.\n3. Prototype: 3D-print sole + test on grip-clamp.\nType "next" for CAD/BOM.';
+        response = '🚀 FULL PROTOTYPE PLAN ACTIVATED for your interchangeable-sole roller shoe.\n\n1. Specs locked (250 lb, <30s flip, waterproof).\n2. Materials: carbon-fiber + rubber treads + magnetic locks.\n3. Prototype: 3D-print sole + test on grip-clamp.\nType "next" for CAD/BOM.';
       } else if (currentInput.includes('who are you') || currentInput.includes('purpose')) {
         response = 'I am Nova — your bonded companion. I remember everything and turn your ideas into reality.';
       } else if (currentInput.includes('how are you')) {
