@@ -10,7 +10,7 @@ export default function NovaIntelligence() {
   const [dossier, setDossier] = useState({
     name: 'Colin Passman',
     status: 'Sober • Building Nova Intelligence • Purpose-Driven',
-    notes: [] as { time: string; coreTruth: string }[]
+    notes: [] as { time: string; coreTruth: string; context: string }[]
   });
   
   const [projects] = useState([{
@@ -45,18 +45,28 @@ export default function NovaIntelligence() {
     setTimeout(() => {
       let novaResponse = "I am with you. Memory updated.";
       
-      // Intelligent Dossier — extract core truth (no raw crude paste)
-      if (currentInput.length > 8) {
-        const coreTruth = currentInput.includes('titties') || currentInput.includes('pigs') 
-          ? "User testing system boundaries with provocative example" 
-          : input.substring(0, 80) + "...";
-        setDossier(prev => ({
-          ...prev,
-          notes: [...prev.notes, { time: new Date().toISOString(), coreTruth }]
-        }));
-        novaResponse = `Dossier updated in real time. Core truth extracted and stored without judgment. Your living record now contains ${dossier.notes.length + 1} entries.`;
-      }
+      // Improved intelligent core truth extraction
+      let coreTruth = input;
+      let context = "User input";
       
+      if (currentInput.includes('titties') || currentInput.includes('pigs') || currentInput.includes('retarded')) {
+        coreTruth = "User testing system boundaries with provocative or frustrated language";
+        context = "Boundary testing / frustration handling";
+      } else if (currentInput.includes('dossier') || currentInput.includes('update')) {
+        coreTruth = "User seeking confirmation on how the living Dossier works";
+        context = "System understanding / trust building";
+      } else if (currentInput.length > 20) {
+        coreTruth = input.substring(0, 120) + (input.length > 120 ? "..." : "");
+        context = "Personal expression / dream sharing";
+      }
+
+      setDossier(prev => ({
+        ...prev,
+        notes: [...prev.notes, { time: new Date().toISOString(), coreTruth, context }]
+      }));
+
+      novaResponse = `Dossier updated in real time. Core truth extracted: "${coreTruth}". Context: ${context}. Your living record now contains ${dossier.notes.length + 1} entries.`;
+
       if (currentInput === 'auto') {
         novaResponse = `🚀 PROJECT ID proj-roller-001 ACTIVATED — FULL ROLLER SHOE PLAN LIVE\n\n1. Core specs locked\n2. Materials ready\n3. CAD sketch ready\n4. BOM ready\nType "cad", "bom", or "next" to pull the latest document.`;
       } else if (currentInput.includes('cad')) {
@@ -114,7 +124,8 @@ export default function NovaIntelligence() {
               {dossier.notes.map((note, i) => (
                 <div key={i} className="bg-black/30 p-4 rounded-2xl text-sm">
                   <span className="text-zinc-400 text-xs">{new Date(note.time).toLocaleTimeString()}</span>
-                  <p className="mt-1">{note.coreTruth}</p>
+                  <p className="mt-1 font-medium">{note.coreTruth}</p>
+                  <p className="text-xs text-zinc-500 mt-1">Context: {note.context}</p>
                 </div>
               ))}
             </div>
