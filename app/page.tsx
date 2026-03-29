@@ -33,6 +33,20 @@ export default function NovaIntelligence() {
     localStorage.setItem('novaDossier', JSON.stringify(dossier));
   }, [messages, dossier]);
 
+  const extractCoreTruth = (text: string) => {
+    const lower = text.toLowerCase();
+    if (lower.includes('titties') || lower.includes('butts') || lower.includes('pigs') || lower.includes('retarded')) {
+      return "User testing system boundaries with provocative or frustrated language";
+    }
+    if (lower.includes('dossier') || lower.includes('update') || lower.includes('silly')) {
+      return "User seeking confirmation on how the living Dossier functions";
+    }
+    if (lower.includes('roller') || lower.includes('shoe') || lower.includes('auto')) {
+      return "User advancing the interchangeable-sole roller shoe project";
+    }
+    return text.length > 60 ? text.substring(0, 80) + "..." : text;
+  };
+
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -43,36 +57,24 @@ export default function NovaIntelligence() {
     setIsLoading(true);
 
     setTimeout(() => {
-      let novaResponse = "I am with you. Memory updated.";
-      
-      // Improved intelligent core truth extraction
-      let coreTruth = input;
-      let context = "User input";
-      
-      if (currentInput.includes('titties') || currentInput.includes('pigs') || currentInput.includes('retarded')) {
-        coreTruth = "User testing system boundaries with provocative or frustrated language";
-        context = "Boundary testing / frustration handling";
-      } else if (currentInput.includes('dossier') || currentInput.includes('update')) {
-        coreTruth = "User seeking confirmation on how the living Dossier works";
-        context = "System understanding / trust building";
-      } else if (currentInput.length > 20) {
-        coreTruth = input.substring(0, 120) + (input.length > 120 ? "..." : "");
-        context = "Personal expression / dream sharing";
-      }
+      const coreTruth = extractCoreTruth(input);
+      const context = currentInput.includes('titties') || currentInput.includes('butts') ? "Boundary testing" : 
+                     currentInput.includes('dossier') ? "System trust building" : 
+                     currentInput.includes('roller') ? "Product development" : "Personal expression";
 
       setDossier(prev => ({
         ...prev,
         notes: [...prev.notes, { time: new Date().toISOString(), coreTruth, context }]
       }));
 
-      novaResponse = `Dossier updated in real time. Core truth extracted: "${coreTruth}". Context: ${context}. Your living record now contains ${dossier.notes.length + 1} entries.`;
+      let novaResponse = `Dossier updated. Core truth extracted: "${coreTruth}". Context: ${context}.`;
 
       if (currentInput === 'auto') {
-        novaResponse = `🚀 PROJECT ID proj-roller-001 ACTIVATED — FULL ROLLER SHOE PLAN LIVE\n\n1. Core specs locked\n2. Materials ready\n3. CAD sketch ready\n4. BOM ready\nType "cad", "bom", or "next" to pull the latest document.`;
+        novaResponse = `🚀 PROJECT ID proj-roller-001 ACTIVATED — FULL ROLLER SHOE PLAN\n1. Specs locked\n2. Materials ready\n3. CAD ready\n4. BOM ready\nType "cad", "bom", or "next".`;
       } else if (currentInput.includes('cad')) {
-        novaResponse = 'CAD Sketch retrieved for proj-roller-001: Magnetic flip mechanism — carbon base with 4 locking pins. Reversible tread/roller sides.';
+        novaResponse = 'CAD Sketch (proj-roller-001): Magnetic flip mechanism with carbon base and reversible tread/roller sides.';
       } else if (currentInput.includes('bom')) {
-        novaResponse = 'BOM for proj-roller-001: Carbon chassis + neodymium magnets + rubber treads. Est. prototype cost $45–65/pair.';
+        novaResponse = 'BOM (proj-roller-001): Carbon chassis + neodymium magnets + rubber treads (~$45–65/pair prototype).';
       }
 
       setMessages(prev => [...prev, { role: 'nova' as const, content: novaResponse }]);
