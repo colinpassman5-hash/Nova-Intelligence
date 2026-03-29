@@ -11,12 +11,21 @@ export default function NovaIntelligence() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Shared evolving project state
   const [project, setProject] = useState({
     rollerShoe: {
       status: 'active',
       progress: 'In Progress — Prototype plan live and executing',
       lastUpdated: new Date().toISOString()
     }
+  });
+
+  // Simple document store for retrieval (CAD, BOM, etc.)
+  const [documents, setDocuments] = useState({
+    coreSpecs: 'Core specs locked: 250 lb weight limit, under 30 seconds flip, fully waterproof, modular magnetic quick-release locks.',
+    materials: 'Carbon-fiber base plate + high-grip rubber treads (beach/traction/roller modes) + neodymium magnetic locks.',
+    cadSketch: 'CAD description ready: 3D-printable sole with magnetic lock system designed for your grip-clamp Segway test setup.',
+    bom: 'Full BOM list prepared — ready for supplier links.'
   });
 
   useEffect(() => {
@@ -40,7 +49,7 @@ export default function NovaIntelligence() {
     setIsLoading(true);
 
     setTimeout(() => {
-      let novaResponse = "Memory updated.";
+      let novaResponse = "Memory updated. I am with you.";
 
       if (currentInput === 'auto') {
         novaResponse = `FULL PROTOTYPE PLAN ACTIVATED — INTERCHANGEABLE-SOLE ROLLER SHOE
@@ -62,6 +71,14 @@ Type "next" to advance the project.`;
           ...prev,
           rollerShoe: { ...prev.rollerShoe, progress: 'CAD + BOM generation in progress', lastUpdated: new Date().toISOString() }
         }));
+      } else if (currentInput.includes("core specs") || currentInput.includes("specs")) {
+        novaResponse = documents.coreSpecs;
+      } else if (currentInput.includes("cad") || currentInput.includes("sketch")) {
+        novaResponse = documents.cadSketch;
+      } else if (currentInput.includes("bom")) {
+        novaResponse = documents.bom;
+      } else if (currentInput.includes("materials")) {
+        novaResponse = documents.materials;
       }
 
       setMessages(prev => [...prev, { role: 'nova' as const, content: novaResponse }]);
